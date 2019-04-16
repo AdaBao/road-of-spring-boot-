@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studentMapper">
+    <insert id="addStudent" parameterType="cn.com.Student" useGeneratedKeys="true" keyProperty="id">
+    insert into student(age,name)  values(#{age},#{name}) 
+    </insert>
+    <delete id="deleteStudent" parameterType="int">
+    delete from student where id=#{id}
+    </delete>
+    
+    <update id="updateStudent" parameterType="cn.com.Student">
+    update student set name=#{name},age=#{age} where id=#{id}
+    </update>
+    
+    
+    <resultMap id="studentMap" type="cn.com.Student">
+    <id column="id" property="id"></id>
+    <result column="name" property="name"></result>
+    <result column="age" property="age"></result>
+    </resultMap>
+    
+    <select id="getStudentById" parameterType="int" resultMap="studentMap">
+    select * from student where id=#{id}
+    </select>
+    
+    <select id="getAllStudents" resultMap="studentMap">
+    select * from student
+    </select>
+    
+    <select id="getSomeStudents" resultMap="studentMap"  parameterType="java.util.HashMap">
+    select * from student where age between #{age1} and #{age2}
+    </select>
+    
+    <select id="findByCondition" parameterType="HashMap" resultMap="studentMap">
+    select * from student  
+    <where>
+    <if test="name!=null">
+    name=#{name}
+    </if>
+    
+    <if test="age1!=null and age2!=null">
+    age between #{age1} and #{age2}
+    </if>
+    
+    </where>
+    </select>
+    
+    <delete id="deleteByCondition" parameterType="int">
+    delete from student where id in 
+    <foreach collection="array" open="(" close=")" separator="," item="arr">
+    #{arr}
+    </foreach>
+    </delete>
+    
+    <sql id="key">
+    <trim suffixOverrides=",">
+    <if test="age!=null">
+    age,
+    </if>
+    <if test="name!=null">
+    name,
+    </if>
+    </trim>
+    </sql>
+    
+    <sql id="value">
+    <trim suffixOverrides=",">
+    <if test="age!=null">
+    #{age},
+    </if>
+    <if test="name!=null">
+    #{name},
+    </if>
+    </trim>
+    </sql>
+    
+    <insert id="insertByCondition" parameterType="cn.com.Student" useGeneratedKeys="true" keyProperty="id">
+    insert into student(<include refid="key"/>) values(<include refid="value"/>)
+    </insert>
+</mapper>

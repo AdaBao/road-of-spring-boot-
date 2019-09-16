@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans ">
+
+    <bean name="sayHello" class="Test.SayHello">
+        <property name="name" value="donghui"></property>
+    </bean>
+
+    <bean name="family" class="Test.Family">
+        <property name="father" ref="father"></property>
+        <property name="mother" ref="mother"></property>
+        <property name="son" ref="son"></property>
+        <property name="givenName" value="Bao"></property>
+    </bean>
+
+    <bean name="father" class="Test.Person">
+        <property name="name" value="sam"></property>
+        <property name="age" value="40"></property>
+    </bean>
+
+    <bean name="mother" class="Test.Person">
+        <property name="name" value="lily"></property>
+        <property name="age" value="40"></property>
+    </bean>
+
+    <bean name="son" class="Test.Person">
+        <property name="name" value="bob"></property>
+        <property name="age" value="18"></property>
+    </bean>
+
+
+
+</beans>
